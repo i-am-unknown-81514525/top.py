@@ -412,8 +412,8 @@ class TopGG:
 
         :rtype: :class:`py:bool:`
         :raises toppy.errors.ToppyError: Either the server sent an invalid response, or an unexpected response code was given."""
-        data = await self._request("GET", f"/weekend")
-        return data["is_weekend"]
+        data = await self._request("GET", "/weekend")
+        return data.get("is_weekend", False)
 
     async def fetch_user(self, user: Union[discord.User, discord.Member, discord.Object]) -> User:
         """
