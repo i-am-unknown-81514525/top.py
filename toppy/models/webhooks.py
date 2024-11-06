@@ -14,7 +14,7 @@ class Vote(_ReprMixin):
 
         self.is_test: bool = self._type == "test"
 
-        self.is_weekend: bool = data["isWeekend"]
+        self.is_weekend: bool = data.get("isWeekend", False)
         self.isWeekend = self.is_weekend  # alias
 
         self.query = data["query"]
