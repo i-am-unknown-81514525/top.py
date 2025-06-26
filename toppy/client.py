@@ -57,8 +57,8 @@ class TopGG:
         token: :class:`py:str`
             The token you use for top.gg's API
     """
-    __api_version__ = "v0"
-    _base_ = "https://top.gg/api"
+    __api_version__ = "v1"
+    _base_ = "https://top.gg/api/v1"
 
     def __init__(self, bot: "bot_types", *, token: str, autopost: bool = True):
         r"""
@@ -403,11 +403,16 @@ class TopGG:
         r"""Returns True or False, depending on if it's a "weekend".
 
         If it's a weekend, votes count as double.
+        Weekend is defined as Friday 00:00 UTC to Sunday 23:59 UTC.
 
-        :rtype: :class:`py:bool:`
-        :raises toppy.errors.ToppyError: Either the server sent an invalid response, or an unexpected response code was given."""
-        data = await self._request("GET", f"/weekend")
-        return data["is_weekend"]
+        :rtype: :class:`py:bool:`"""
+        # data = await self._request("GET", f"/weekend")
+        # return data["is_weekend"]
+
+        now_utc = datetime.utcnow()
+        # Monday is 0, Sunday is 6
+        # Friday is 4, Saturday is 5, Sunday is 6
+        return now_utc.weekday() >= 4
 
     async def fetch_user(self, user: Union[discord.User, discord.Member, discord.Object]) -> User:
         """
